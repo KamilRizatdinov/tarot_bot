@@ -1,8 +1,7 @@
 import asyncio
-from dotenv import load_dotenv
 import logging
 import sys
-from os import getenv
+import config
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
@@ -11,12 +10,7 @@ from aiogram.types import Message
 from database import init_db
 from models.user import User
 
-load_dotenv()
 
-# Bot token can be obtained via https://t.me/BotFather
-TOKEN = getenv("BOT_TOKEN")
-
-# All handlers should be attached to the Router (or Dispatcher)
 dp = Dispatcher()
 
 
@@ -39,7 +33,7 @@ async def command_start_handler(message: Message) -> None:
 
 
 async def main() -> None:
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML)
     await init_db()
     await dp.start_polling(bot)
 
